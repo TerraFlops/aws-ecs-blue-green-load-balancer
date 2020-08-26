@@ -77,7 +77,7 @@ data "aws_iam_policy_document" "log_bucket" {
 # Create application load balancer
 resource "aws_lb" "application" {
   name = var.name
-  internal = false
+  internal = var.internal
   load_balancer_type = "application"
   enable_deletion_protection = var.enable_deletion_protection
   security_groups = var.security_group_ids
