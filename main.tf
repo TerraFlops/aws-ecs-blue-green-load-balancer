@@ -148,8 +148,8 @@ resource "aws_lb_listener" "alb_listener" {
   load_balancer_arn = aws_lb.application.arn
   port = var.listener_port
   protocol = upper(var.listener_protocol)
-  certificate_arn = upper(var.listener_protocol) == 'HTTPS' ? var.listener_certificate_arn : null
-  ssl_policy = upper(var.listener_protocol) == 'HTTPS' ? var.listener_ssl_policy : null
+  certificate_arn = upper(var.listener_protocol) == "HTTPS" ? var.listener_certificate_arn : null
+  ssl_policy = upper(var.listener_protocol) == "HTTPS" ? var.listener_ssl_policy : null
 
   # Default action will forward to the green target group
   default_action {
