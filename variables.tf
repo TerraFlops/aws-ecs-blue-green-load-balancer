@@ -31,6 +31,12 @@ variable "log_bucket_create" {
   default = false
 }
 
+variable "internal" {
+  description = "Boolean flag indicating whether the load balancer is public facing or internal. If not specified default to public"
+  type = bool
+  default = false
+}
+
 # Listener settings
 
 variable "listener_port" {

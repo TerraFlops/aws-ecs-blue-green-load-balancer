@@ -1,3 +1,9 @@
+# Container name
+output "container_name" {
+  description = "The container name"
+  value = aws_lb.application.name
+}
+
 # Application load balancer
 output "alb_arn" {
   description = "The ARN of the application load balancer"
