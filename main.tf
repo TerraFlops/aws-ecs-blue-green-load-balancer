@@ -21,6 +21,15 @@ resource "aws_s3_bucket" "log_bucket" {
   policy = data.aws_iam_policy_document.log_bucket.json
 }
 
+resource "aws_s3_bucket_public_access_block" "log_bucket" {
+  count = var.log_bucket_create == true ? 1 : 0
+  bucket = aws_s3_bucket.log_bucket[count.index].bucket
+  block_public_acls = true
+  block_public_policy = true
+  ignore_public_acls = true
+  restrict_public_buckets = true
+}
+
 data "aws_caller_identity" "default" {}
 
 # Setup bucket policy allowing ALB to write logs (https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html)
