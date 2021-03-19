@@ -19,6 +19,10 @@ resource "aws_s3_bucket" "log_bucket" {
     }
   }
   policy = data.aws_iam_policy_document.log_bucket.json
+  logging {
+    target_bucket = var.logging_bucket
+    target_prefix = var.logging_bucket_target_prefix
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "log_bucket" {
