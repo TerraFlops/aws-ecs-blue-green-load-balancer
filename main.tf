@@ -81,6 +81,24 @@ data "aws_iam_policy_document" "log_bucket" {
       type = "Service"
     }
   }
+  statement {
+    sid = "DenyInsecureCommunications"
+    effect = "Deny"
+    principals {
+      identifiers = ["*"]
+      type = "AWS"
+    }
+    actions = ["s3:*"]
+    resources = [
+      "arn:aws:s3:::${var.log_bucket}",
+      "arn:aws:s3:::${var.log_bucket}/*"
+    ]
+    condition {
+      test = "Bool"
+      values = ["false"]
+      variable = "aws:SecureTransport"
+    }
+  }
 }
 
 # Create application load balancer
