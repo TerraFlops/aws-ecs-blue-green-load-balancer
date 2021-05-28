@@ -19,9 +19,18 @@ resource "aws_s3_bucket" "log_bucket" {
     }
   }
   policy = data.aws_iam_policy_document.log_bucket.json
-  logging {
-    target_bucket = var.logging_bucket
-    target_prefix = var.logging_bucket_target_prefix
+
+  dynamic "logging" {
+    for_each = var.logging_bucket == null ? {} : tomap({
+      logging = {
+        target_bucket = var.logging_bucket
+        target_prefix = var.logging_bucket_target_prefix
+      }
+    })
+    content {
+      target_bucket = logging.value["target_bucket"]
+      target_prefix = logging.value["target_prefix"]
+    }
   }
 }
 
