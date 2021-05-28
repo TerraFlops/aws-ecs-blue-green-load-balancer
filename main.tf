@@ -138,12 +138,22 @@ resource "aws_lb_target_group" "blue" {
   vpc_id = var.vpc_id
   deregistration_delay = var.deregistration_delay
 
-  health_check {
-    path = var.health_check_url
-    port = var.health_check_port
-    matcher = var.health_check_response_codes
-    timeout = var.health_check_timeout
-    protocol = upper(var.health_check_protocol)
+  dynamic "health_check" {
+    for_each = var.health_check_url == null ? {}: {
+      path = var.health_check_url
+      port = var.health_check_port
+      matcher = var.health_check_response_codes
+      timeout = var.health_check_timeout
+      protocol = upper(var.health_check_protocol)
+    }
+    content
+    {
+      path = health_check["path"]
+      port = health_check["port"]
+      matcher = health_check["matcher"]
+      timeout = health_check["timeout"]
+      protocol = health_check["protocol"]
+    }
   }
 
   tags = merge(var.tags, {
