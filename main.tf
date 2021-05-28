@@ -139,20 +139,20 @@ resource "aws_lb_target_group" "blue" {
   deregistration_delay = var.deregistration_delay
 
   dynamic "health_check" {
-    for_each = var.health_check_enabled == false ? {}: {
+    for_each = var.health_check_enabled == false ? {} : tomap({
       path = var.health_check_url
       port = var.health_check_port
       matcher = var.health_check_response_codes
       timeout = var.health_check_timeout
       protocol = upper(var.health_check_protocol)
-    }
-    content
-    {
-      path = health_check["path"]
-      port = health_check["port"]
-      matcher = health_check["matcher"]
-      timeout = health_check["timeout"]
-      protocol = health_check["protocol"]
+    })
+
+    content {
+      path = health_check.value["path"]
+      port = health_check.value["port"]
+      matcher = health_check.value["matcher"]
+      timeout = health_check.value["timeout"]
+      protocol = health_check.value["protocol"]
     }
   }
 
@@ -171,12 +171,22 @@ resource "aws_lb_target_group" "green" {
   vpc_id = var.vpc_id
   deregistration_delay = var.deregistration_delay
 
-  health_check {
-    path = var.health_check_url
-    port = var.health_check_port
-    matcher = var.health_check_response_codes
-    timeout = var.health_check_timeout
-    protocol = upper(var.health_check_protocol)
+  dynamic "health_check" {
+    for_each = var.health_check_enabled == false ? {} : tomap({
+      path = var.health_check_url
+      port = var.health_check_port
+      matcher = var.health_check_response_codes
+      timeout = var.health_check_timeout
+      protocol = upper(var.health_check_protocol)
+    })
+
+    content {
+      path = health_check.value["path"]
+      port = health_check.value["port"]
+      matcher = health_check.value["matcher"]
+      timeout = health_check.value["timeout"]
+      protocol = health_check.value["protocol"]
+    }
   }
 
   tags = merge(var.tags, {
