@@ -90,6 +90,10 @@ variable "target_protocol" {
 }
 
 # Health check settings
+variable "health_check_enabled" {
+  type = bool
+  default = true
+}
 
 variable "health_check_url" {
   description = "The URL that will be used when performing health checks. Defaults to '/health'"

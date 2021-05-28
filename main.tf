@@ -139,7 +139,7 @@ resource "aws_lb_target_group" "blue" {
   deregistration_delay = var.deregistration_delay
 
   dynamic "health_check" {
-    for_each = var.health_check_url == null ? {}: {
+    for_each = var.health_check_enabled == false ? {}: {
       path = var.health_check_url
       port = var.health_check_port
       matcher = var.health_check_response_codes
