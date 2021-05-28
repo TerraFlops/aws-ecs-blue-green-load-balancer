@@ -140,11 +140,13 @@ resource "aws_lb_target_group" "blue" {
 
   dynamic "health_check" {
     for_each = var.health_check_enabled == false ? {} : tomap({
-      path = var.health_check_url
-      port = var.health_check_port
-      matcher = var.health_check_response_codes
-      timeout = var.health_check_timeout
-      protocol = upper(var.health_check_protocol)
+      health_check = {
+        path = var.health_check_url
+        port = var.health_check_port
+        matcher = var.health_check_response_codes
+        timeout = var.health_check_timeout
+        protocol = upper(var.health_check_protocol)
+      }
     })
 
     content {
@@ -173,11 +175,13 @@ resource "aws_lb_target_group" "green" {
 
   dynamic "health_check" {
     for_each = var.health_check_enabled == false ? {} : tomap({
-      path = var.health_check_url
-      port = var.health_check_port
-      matcher = var.health_check_response_codes
-      timeout = var.health_check_timeout
-      protocol = upper(var.health_check_protocol)
+      health_check = {
+        path = var.health_check_url
+        port = var.health_check_port
+        matcher = var.health_check_response_codes
+        timeout = var.health_check_timeout
+        protocol = upper(var.health_check_protocol)
+      }
     })
 
     content {
