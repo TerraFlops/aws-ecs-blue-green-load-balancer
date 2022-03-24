@@ -138,6 +138,12 @@ resource "aws_lb" "application" {
   })
 }
 
+resource "aws_wafv2_web_acl_association" "attach_waf" {
+  count = var.waf_arn == "" ? 0 : 1
+  resource_arn = aws_lb.application.arn
+  web_acl_arn  = var.waf_arn
+}
+
 # Create blue target group
 resource "aws_lb_target_group" "blue" {
   name = local.blue_target_group_name
