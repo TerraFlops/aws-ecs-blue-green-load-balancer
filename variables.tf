@@ -150,5 +150,5 @@ variable "logging_bucket_target_prefix" {
 variable "waf_arn" {
   description = "ARN of WAF to attach to ALB"
   type = string
-  default = ""
+  # default = ""
 }

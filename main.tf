@@ -139,7 +139,7 @@ resource "aws_lb" "application" {
 }
 
 resource "aws_wafv2_web_acl_association" "attach_waf" {
-  count = var.waf_arn == "" ? 0 : 1
+  # count = var.waf_arn == "" ? 0 : 1
   resource_arn = aws_lb.application.arn
   web_acl_arn  = var.waf_arn
 }
